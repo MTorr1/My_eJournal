@@ -1,0 +1,40 @@
+<h1> Edit Entry </h1>
+<% form_with model: @entry do |form|%>
+<% if entry.errors.any? %>
+<div class="errors">
+<h2><%= pluralize(@entry.errors.count, "errors") %> prevented saving </h2>
+    <ul>
+        <% @entry.errors.full_messagge.each do |msg| %>
+            <li><%= msg %></li>
+        <%end%>
+     </ul>
+ </div>
+<% end %>
+
+<div>
+<%= form.label :title %><br>
+<%= form.text_field :title %>
+</div?
+
+<div> 
+<%= form.label :body %><br>
+<%= form.text_field :body %>
+</div>
+
+<div>
+<%= form.date :last_updated_date %><br>
+<%= form.date_field :last_updated_date %>
+</div>
+
+<div> 
+<%= form.label :mood %><br>
+<%= form.text_field :mood %>
+</div>
+
+<div>
+<%= form.submit "Update Entry"%>
+</div>
+<%end%>
+
+<%= link_to "Back", entries_path %>
+

@@ -1,0 +1,76 @@
+# Unsute if I need to use @journal_entries here or @entries
+# entries is used in the controller
+# jounral_entries is used in the Migration file
+# I think it is @entry as that is in the controller?
+
+<h1>New Entry</h1>
+
+<%= form_with model: @entry do |form| %>
+<% if @entry.errors.any? %>
+    <div class="errors">
+        <h2><%= pluralize(@entry.errors.count, "errors") %> prevented saving:</h2>
+        <ul> #what is this???
+            <% @entry.errors.full_message.each do |msg|%> 
+                <li><%= msg %></li>
+            <% end %>
+        </ul>
+    </div>
+<% end %>
+
+<div>
+    <%= form.label :title %><br>
+    <%= form.text_field :title %>
+</div>
+
+<div>
+    <%= form.label :body %><br>
+    <%= form.text_field :body %>
+</div>
+
+# believe i also need to do Divs for mood and maybe entry date as they are both in the create_journal_entries.rb migration file?
+
+<div> 
+    <%= form.label :entry_date %><br>
+    <%= form.date_field :entry_date %>
+</div>
+
+# is this the best way of doing entry_date? or is there a way I can get it to auto fill out? 
+# Have I already done that in another file???
+
+
+<div>
+    <%= form.label :q1 %><br> #How did I sleep? 
+    <%= form.text_field :q1 %>
+</div>
+
+<div>
+    <%= form.label :q2 %><br> #Did I train this morning? (Y/N)
+    <%= form.text_field :q2 %>
+</div>
+
+<div>
+    <%= form.label :q3 %><br> #How intensd did I train (1-5)
+    <%= form.text_field :q3 %>
+</div>
+
+<div>
+    <%= form.label :q4 %><br> #How do I feel (1-5)
+    <%= form.text_field :q4 %>
+</div>
+
+<div>
+    <%= form.label :mood %><br>
+    <%= form.text_field :mood %>
+</div>
+
+<div> 
+    <%= form.submit "Create Entry" %>
+</div>
+
+<%end%>
+
+
+
+
+
+    

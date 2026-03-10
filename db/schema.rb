@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_15_122725) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_09_074705) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -34,4 +34,36 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_15_122725) do
     t.string "title"
     t.datetime "updated_at", null: false
   end
+
+  create_table "question_options", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "label"
+    t.bigint "question_id", null: false
+    t.datetime "updated_at", null: false
+    t.integer "value"
+    t.index ["question_id"], name: "index_question_options_on_question_id"
+  end
+
+  create_table "questions", force: :cascade do |t|
+    t.string "content"
+    t.datetime "created_at", null: false
+    t.integer "position"
+    t.string "response_type"
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "responses", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "journal_entry_id", null: false
+    t.integer "numeric_value"
+    t.bigint "question_id", null: false
+    t.string "text_value"
+    t.datetime "updated_at", null: false
+    t.index ["journal_entry_id"], name: "index_responses_on_journal_entry_id"
+    t.index ["question_id"], name: "index_responses_on_question_id"
+  end
+
+  add_foreign_key "question_options", "questions"
+  add_foreign_key "responses", "journal_entries"
+  add_foreign_key "responses", "questions"
 end

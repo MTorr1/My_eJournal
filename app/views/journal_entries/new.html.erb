@@ -1,4 +1,5 @@
 # Unsute if I need to use @journal_entries here or @entries
+# Unsute if I need to use @journal_entries here or @entries
 # entries is used in the controller
 # jounral_entries is used in the Migration file
 # I think it is @entry as that is in the controller?
@@ -37,31 +38,26 @@
 # is this the best way of doing entry_date? or is there a way I can get it to auto fill out? 
 # Have I already done that in another file???
 
+<hr>
+<h3>Daily Tracking</h3>
+<%= form.fields_for :responses do |response_form| %> 
+    <div style="margin-bottom: 20px; vorder-bottom: 1px solid #eee; padding-bottom: 10px;">
 
-<div>
-    <%= form.label :q1 %><br> #How did I sleep? 
-    <%= form.text_field :q1 %>
-</div>
+        <strong><%= response_form.object.question.content %></strong><br>
+        <%= response_form.hidden_field :question_id %>
+        <% if response_form.object.question.question_options.any? %>
 
-<div>
-    <%= form.label :q2 %><br> #Did I train this morning? (Y/N)
-    <%= form.text_field :q2 %>
-</div>
+            <%= response_form.collection_select :numeric_value,
+            response_form.object.question.question_options,
+            :value, :label,
+            {prompt: "Select and option..."} %>
 
-<div>
-    <%= form.label :q3 %><br> #How intensd did I train (1-5)
-    <%= form.text_field :q3 %>
-</div>
+        <% else %>
+            <%= response_form.text_field :text_value, placeholder: "Your anwser here..." %>
+        <% end %>
+    </div>
+<% end %>
 
-<div>
-    <%= form.label :q4 %><br> #How do I feel (1-5)
-    <%= form.text_field :q4 %>
-</div>
-
-<div>
-    <%= form.label :mood %><br>
-    <%= form.text_field :mood %>
-</div>
 
 <div> 
     <%= form.submit "Create Entry" %>

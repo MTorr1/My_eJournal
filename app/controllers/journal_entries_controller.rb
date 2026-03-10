@@ -6,7 +6,10 @@ class JournalEntriesController < ApplicationController
         @entry = JournalEntry.create(entry_params)
     end
     def new   
-        @entry = JournalEntry.new
+        @entry = JournalEntry.new(entry_date: Date.today)
+        Question.order(:position).each do |q|
+         @entry.responses.build(question: q)
+     end
     end
 
     def show

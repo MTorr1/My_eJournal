@@ -32,10 +32,11 @@ class JournalEntriesController < ApplicationController
 
     private 
     def entry_params
-        params.require(:journal_entry).permit(:body, :title, :q1, :q2, :q3, :q4, :entry_date, :mood)
-    end
-
-    def update_params
-        params.require(:journal_entry).permit(:body, :title, :q1, :q2, :q3, :q4, :mood)
+        params.require(:journal_entry).permit(
+            :title,
+            :body,
+            :entry_date,
+            response_attributes: [:id, :question_id, :text_value, :numeric_value]
+        )
     end
 end

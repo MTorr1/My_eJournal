@@ -6,31 +6,15 @@
     <p><%=  @entry.body %></p>
 </div>
 
-<div>
-    <p><strong>q1:</strong></p>
-    <p><%=  @entry.q1 %></p>
-</div>
 
-<div>
-    <p><strong>q2:</strong></p>
-    <p><%=  @entry.q2 %></p>
-</div>
+<% @entry.responses.each do |response| %>
+    <p>
+        <strong><%= response.question.content %></strong>
+        <%= response.text_value || response.numeric_value %>
+    </p>
+ <% end %>
 
-<div>
-    <p><strong>q3:</strong></p>
-    <p><%=  @entry.q3 %></p>
-</div>
 
-<div>
-    <p><strong>q4:</strong></p>
-    <p><%=  @entry.q4 %></p>
-</div>
 
-<div>
-    <p><strong>Mood:</strong></p>
-    <p><%= @entry.mood %></p>
-
-</div>
-   
 
 

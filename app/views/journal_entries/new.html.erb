@@ -1,69 +1,8 @@
-# Unsute if I need to use @journal_entries here or @entries
-# Unsute if I need to use @journal_entries here or @entries
-# entries is used in the controller
-# jounral_entries is used in the Migration file
-# I think it is @entry as that is in the controller?
 
-<h1>New Entry</h1>
+<%= render "form", entry: @entry %>
 
-<%= form_with model: @entry do |form| %>
-<% if @entry.errors.any? %>
-    <div class="errors">
-        <h2><%= pluralize(@entry.errors.count, "errors") %> prevented saving:</h2>
-        <ul> #what is this???
-            <% @entry.errors.full_message.each do |msg|%> 
-                <li><%= msg %></li>
-            <% end %>
-        </ul>
-    </div>
-<% end %>
+<%= link_to "Back", journal_entries_path %>
 
-<div>
-    <%= form.label :title %><br>
-    <%= form.text_field :title %>
-</div>
-
-<div>
-    <%= form.label :body %><br>
-    <%= form.text_field :body %>
-</div>
-
-# believe i also need to do Divs for mood and maybe entry date as they are both in the create_journal_entries.rb migration file?
-
-<div> 
-    <%= form.label :entry_date %><br>
-    <%= form.date_field :entry_date %>
-</div>
-
-# is this the best way of doing entry_date? or is there a way I can get it to auto fill out? 
-# Have I already done that in another file???
-
-<hr>
-<h3>Daily Tracking</h3>
-<%= form.fields_for :responses do |response_form| %> 
-    <div style="margin-bottom: 20px; vorder-bottom: 1px solid #eee; padding-bottom: 10px;">
-
-        <strong><%= response_form.object.question.content %></strong><br>
-        <%= response_form.hidden_field :question_id %>
-        <% if response_form.object.question.question_options.any? %>
-
-            <%= response_form.collection_select :numeric_value,
-            response_form.object.question.question_options,
-            :value, :label,
-            {prompt: "Select and option..."} %>
-
-        <% else %>
-            <%= response_form.text_field :text_value, placeholder: "Your anwser here..." %>
-        <% end %>
-    </div>
-<% end %>
-
-
-<div> 
-    <%= form.submit "Create Entry" %>
-</div>
-
-<%end%>
 
 
 

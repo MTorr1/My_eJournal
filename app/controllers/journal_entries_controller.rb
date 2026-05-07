@@ -4,11 +4,13 @@ class JournalEntriesController < ApplicationController
     end
     def create
         @entry = JournalEntry.create(entry_params)
+
         if @entry.save
             redirect_to @entry
         else
             puts "--- Save Failed---"
             puts @entry.errors.full_messages
+            binding.pry
             @entry.responses.each do |r|
                 puts "Response Error #{r.errors.full_messages}" if r.errors.any?
             end
@@ -16,7 +18,7 @@ class JournalEntriesController < ApplicationController
             render :new, status: :unprocessable_entity
         end
     end
-    # remove the IF statment after I have fixed saving bug
+    
     def new   
         @entry = JournalEntry.new(entry_date: Date.today)
         Question.order(:position).each do |q|
@@ -59,7 +61,7 @@ class JournalEntriesController < ApplicationController
             :title,
             :body,
             :entry_date,
-            responses_attributes: [:id, :question_id, :text_value, :numeric_value, :date_value]
+            responses_attributes: [:id, :question_id, :text_value, :numeric_value, :date_value, :hours, :minutes]
         )
         # Added date value as an attribute. Not sure if tis will work
     end

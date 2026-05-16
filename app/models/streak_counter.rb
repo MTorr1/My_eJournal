@@ -1,0 +1,2 @@
+class StreakCounter < ApplicationRecord
+end

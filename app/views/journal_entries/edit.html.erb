@@ -2,3 +2,5 @@
 <%= render "form", entry: @entry %>
 
 <%= link_to "Back", journal_entries_path %>
+
+<td><%= link_to 'Delete Entry', journal_entry_path(@entry), data: {turbo_method: :delete, turbo_confirm: 'Are you sure?'} %>

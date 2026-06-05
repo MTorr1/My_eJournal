@@ -53,6 +53,13 @@ class JournalEntriesController < ApplicationController
     def destroy
         @entry = JournalEntry.find(params[:id]);
         @entry.destroy
+        flash[:success] = "The to-do item was successfully destroyed."
+        redirect_to journal_entries_url, notice: "Entry was removed"
+
+        # respond_to do |format|
+        #     format.html {redirect_to journal_entry_url, notice: "Entry was removed"}
+        #     # does this need to be journal_entry or journal_entries?
+        # end
     end
 
     private 

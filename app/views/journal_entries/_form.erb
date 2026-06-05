@@ -1,8 +1,3 @@
-# Unsute if I need to use @journal_entries here or @entries
-# Unsute if I need to use @journal_entries here or @entries
-# entries is used in the controller
-# jounral_entries is used in the Migration file
-# I think it is @entry as that is in the controller?
 
 <h1>New Entry</h1>
 
@@ -10,7 +5,7 @@
 <% if @entry.errors.any? %>
     <div class="errors">
         <h2><%= pluralize(@entry.errors.count, "errors") %> prevented saving:</h2>
-        <ul> #what is this???
+        <ul>
             <% entry.errors.full_messages.each do |msg|%> 
                 <li><%= msg %></li>
             <% end %>
@@ -28,18 +23,15 @@
     <%= form.text_area :body %>
 </div>
 
-# believe i also need to do Divs for mood and maybe entry date as they are both in the create_journal_entries.rb migration file?
 
 <div> 
     <%= form.label :entry_date %><br>
     <%= form.date_field :entry_date %>
 </div>
 
-# is this the best way of doing entry_date? or is there a way I can get it to auto fill out? 
-# Have I already done that in another file???
 
 <hr>
-<h3>Daily Tracking</h3>
+<h3>Daily Tracking</h3> 
 <%= form.fields_for :responses do |response_form| %> 
   <% column = response_form.object.question.storage_column %>
 
@@ -54,7 +46,8 @@
         :value, :label, {prompt: "Select option here"} %>
     <% elsif response_form.object.question.response_type == "date" %>
     <%= response_form.date_field :date_value, class: "date-picker" %>
-#  the above statment is where I am currently working to add my date picker
+    <% elsif response_form.object.question.response_type == "time" %>
+    <%= render "hours_minutes", form: response_form %>
     <% else %>
         <%= response_form.text_field :text_value, placeholder: "Enter here..." %>
         <% end %>

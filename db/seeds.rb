@@ -21,7 +21,7 @@ Question.create!([
     {content: "Did you train in the last 24 Hours?", response_type: "boolean", position: 2}, # Need to look at this and Q3 as Parent child logic in future
     {content: "How intensley did you train?", response_type: "integer", position: 3}, # Need to look at this and Q2 as Parent child logic in future
     {content: "Did you hit your protine goal yesterday?", response_type: "boolean", position: 4}, 
-    {content: "How much screen time did I have yesterday?", response_type: "float", position: 5}, # I would like to try API this data in the future
+    {content: "How much screen time did I have yesterday?", response_type: "time", position: 5}, # I would like to try API this data in the future
     {content: "Did anything happen yesterday to make me feel worse?", response_type: "boolean", position: 6}, # Need to look at this and Q7 as Parent child logic in future
     {content: "What happened to make you feel bad?", response_type: "string", position: 7},# Need to look at this and Q6 as Parent child logic in future
     {content: "When did you last see friends?", response_type: "date", position: 8},  
@@ -119,20 +119,28 @@ self_dev_q = Question.find_by(content:"Did I do self devlopment yesterday?")
     ])
 end
 
-screen_time_q = Question.find_by(content:"How much screen time did I have yesterday?")
-    if screen_t_q
-        puts "Select Time for: #{screen_t_q.content}"
-
-    QuestionOption.create([
-        {question: screen_t_q,label: select_time(), value: select_time()},
-    ])
+screen_time_q = Question.find_by(content:"How much screen time did I have yesterday?") do |q| 
+    question.response_type = 'time'
 end
 
-# this will not yet work need to add a lot more incouding updating my migration file
-# Beleieve I am better off using the se;ect_time helper
+puts "Verified Question : #{screen_time_q.content} (Type: {screen_time_q.response_type})"
 
 
+# Origonal code block below, new one above
 
+# screen_time_q = Question.find_by(content:"How much screen time did I have yesterday?")
+#     if screen_time_q
+#         puts "Select Time for: #{screen_time_q.content}"
+
+#     QuestionOption.create([
+#         {question: screen_time_q,label: select_time(), value: select_time()},
+#     ])
+# end
+
+# Believe this is fialing to seed as I not have two input fields from my _hours_minutes form
+
+
+  
 
 puts "Sucsessfully seeded #{Question.count} questions."
 # if I use a mix of integers and floats how easy is it to do analysis on?

@@ -4,19 +4,21 @@ class JournalEntriesController < ApplicationController
     end
     def create
         @entry = JournalEntry.create(entry_params)
+
         if @entry.save
             redirect_to @entry
         else
             puts "--- Save Failed---"
             puts @entry.errors.full_messages
+            binding.pry
             @entry.responses.each do |r|
                 puts "Response Error #{r.errors.full_messages}" if r.errors.any?
             end
             
-            render :new, status: :unprocessable_entry
+            render :new, status: :unprocessable_entity
         end
     end
-    # remove the IF statment after I have fixed saving bug
+    
     def new   
         @entry = JournalEntry.new(entry_date: Date.today)
         Question.order(:position).each do |q|
@@ -29,12 +31,23 @@ class JournalEntriesController < ApplicationController
     end
 
     def edit
-        @entry = JournalEntry.find(params[:id])
+        @entry = JournalEntry.includes(responses: { question: :question_options}).find(params[:id]);
+        Question.all.each do|question|
+            unless @entry.responses.find_by(question_id: question.id)
+                @entry.responses.build(question: question)
+            end
+        end
     end
+# the above code was meant to display my questions and responses in the edit menu, even if I hadn't filled them out
 
     def update
-        @entry = JournalEntry.find(params[:id]);
-        @entry.update(entry_params)
+        @entry = JournalEntry.find(params[:id])
+        if @entry.update(entry_params)
+            redirect_to @entry, notice: "Sucsessul Entry"
+        else
+        @entry = JournalEntry.includes(responses: { question: :question_options }).find(params[:id])
+        render :edit, status: :unprocessed_entity
+        end
     end
 
     def destroy
@@ -48,7 +61,10 @@ class JournalEntriesController < ApplicationController
             :title,
             :body,
             :entry_date,
-            responses_attributes: [:id, :question_id, :text_value, :numeric_value]
+            responses_attributes: [:id, :question_id, :text_value, :numeric_value, :date_value, :hours, :minutes]
         )
+        # Added date value as an attribute. Not sure if tis will work
     end
 end
+
+# @journal_entry = JournalEntry.includes(responses: { question: :question_options }).find(params[:id])

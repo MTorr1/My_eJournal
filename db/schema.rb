@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_09_074705) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_09_070920) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -40,7 +40,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_09_074705) do
     t.string "label"
     t.bigint "question_id", null: false
     t.datetime "updated_at", null: false
-    t.integer "value"
+    t.string "value"
     t.index ["question_id"], name: "index_question_options_on_question_id"
   end
 
@@ -54,9 +54,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_09_074705) do
 
   create_table "responses", force: :cascade do |t|
     t.datetime "created_at", null: false
+    t.date "date_value"
     t.bigint "journal_entry_id", null: false
     t.integer "numeric_value"
     t.bigint "question_id", null: false
+    t.time "screen_time_in_minutes"
     t.string "text_value"
     t.datetime "updated_at", null: false
     t.index ["journal_entry_id"], name: "index_responses_on_journal_entry_id"

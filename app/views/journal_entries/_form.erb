@@ -1,0 +1,57 @@
+
+<h1>New Entry</h1>
+
+<%= form_with model: @entry do |form| %>
+<% if @entry.errors.any? %>
+    <div class="errors">
+        <h2><%= pluralize(@entry.errors.count, "errors") %> prevented saving:</h2>
+        <ul>
+            <% entry.errors.full_messages.each do |msg|%> 
+                <li><%= msg %></li>
+            <% end %>
+        </ul>
+    </div>
+<% end %>
+
+<div>
+    <%= form.label :title %><br>
+    <%= form.text_field :title %>
+</div>
+
+<div>
+    <%= form.label :body %><br>
+    <%= form.text_area :body %>
+</div>
+
+
+<div> 
+    <%= form.label :entry_date %><br>
+    <%= form.date_field :entry_date %>
+</div>
+
+
+<hr>
+<h3>Daily Tracking</h3> 
+<%= form.fields_for :responses do |response_form| %> 
+  <% column = response_form.object.question.storage_column %>
+
+  <div class="field-group">
+    <strong><%= response_form.object.question.content %></strong>
+    <%= response_form.hidden_field :id %>
+    <%= response_form.hidden_field :question_id %>
+
+    <% if response_form.object.question.question_options.any? %>
+    <%= response_form.collection_select column,
+        response_form.object.question.question_options,
+        :value, :label, {prompt: "Select option here"} %>
+    <% elsif response_form.object.question.response_type == "date" %>
+    <%= response_form.date_field :date_value, class: "date-picker" %>
+    <% elsif response_form.object.question.response_type == "time" %>
+    <%= render "hours_minutes", form: response_form %>
+    <% else %>
+        <%= response_form.text_field :text_value, placeholder: "Enter here..." %>
+        <% end %>
+    </div>
+<% end %> 
+<%= form.submit "Submit" %>
+<% end %>

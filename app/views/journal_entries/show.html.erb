@@ -10,7 +10,7 @@
 <% @entry.responses.each do |response| %>
     <p>
         <strong><%= response.question.content %></strong>
-        <%= response.text_value || response.numeric_value %>
+        <%= response.text_value || response.numeric_value || response.date_value %>
     </p>
  <% end %>
 

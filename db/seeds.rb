@@ -68,7 +68,7 @@ if mood_q
         {question: mood_q, label: "Excited", value: "Excited"},
         {question: mood_q, label: "Depressed", value: "Depressed"},
         {question: mood_q, label: "Anxious", value: "Anxious"},
-        {question: mood_q, label: "Calm", value: "calm"},
+        {question: mood_q, label: "Calm", value: "Calm"},
         {question: mood_q, label: "Frustrated", value: "Frustrated"},
         {question: mood_q, label: "Overwhelmed", value: "Overwhelmed"},
         {question: mood_q, label: "Neutral", value: "Neutral"},
@@ -126,6 +126,14 @@ end
 puts "Verified Question : #{screen_time_q.content} (Type: {screen_time_q.response_type})"
 
 
+did_anything_happen_q = Question.find_by(content:"Did anything happen yesterday to make me feel worse?")
+    if did_anything_happen_q
+        puts "Seeding options for: #{did_anything_happen_q.content}"
+    QuestionOption.create([
+        {question: did_anything_happen_q, label: "Yes", value: 1},
+        {question: did_anything_happen_q, label: "No", value: 0},
+    ])
+end 
 # Origonal code block below, new one above
 
 # screen_time_q = Question.find_by(content:"How much screen time did I have yesterday?")

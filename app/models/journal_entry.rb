@@ -5,4 +5,5 @@ class JournalEntry < ApplicationRecord
     accepts_nested_attributes_for :responses,
                                 allow_destroy: true,
                                 reject_if: :all_blank
+    belongs_to :user
 end

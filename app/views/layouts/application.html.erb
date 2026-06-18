@@ -24,8 +24,13 @@
   </head>
 
   <body>
-    <%= link_to "All Entries", journal_entries_path %>
-    <%= link_to "New Entry", new_journal_entry_path %>
+    <%- if current_user %>
+      <%= link_to "All Entries", journal_entries_path %>
+      <%= link_to "New Entry", new_journal_entry_path %>
+    <% end %>
+
+    <p class="notice"><%= notice %></p>
+    <p class="alert"><%= alert %></p>
     <%= yield %>
   </body>
 </html>

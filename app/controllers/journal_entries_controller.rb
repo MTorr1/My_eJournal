@@ -10,7 +10,7 @@ class JournalEntriesController < ApplicationController
         else
             puts "--- Save Failed---"
             puts @entry.errors.full_messages
-            binding.pry
+            # binding.pry
             @entry.responses.each do |r|
                 puts "Response Error #{r.errors.full_messages}" if r.errors.any?
             end

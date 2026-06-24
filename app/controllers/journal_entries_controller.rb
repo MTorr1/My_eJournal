@@ -3,8 +3,8 @@ class JournalEntriesController < ApplicationController
         @entries = JournalEntry.all
     end
     def create
-        @entry = JournalEntry.create(entry_params)
-
+        # @entry = JournalEntry.create(entry_params)
+        @entry = current_user.journal_entries.create(entry_params)
         if @entry.save
             redirect_to @entry
         else
@@ -20,18 +20,18 @@ class JournalEntriesController < ApplicationController
     end
     
     def new   
-        @entry = JournalEntry.new(entry_date: Date.today)
+        @entry = current_user.journal_entries.new(entry_date: Date.today)
         Question.order(:position).each do |q|
          @entry.responses.build(question: q)
      end
     end
 
     def show
-        @entry = JournalEntry.find(params[:id])
+        @entry = current_user.journal_entries.find(params[:id])
     end
 
     def edit
-        @entry = JournalEntry.includes(responses: { question: :question_options}).find(params[:id]);
+        @entry = current_user.journal_entries.includes(responses: { question: :question_options}).find(params[:id]);
         Question.all.each do|question|
             unless @entry.responses.find_by(question_id: question.id)
                 @entry.responses.build(question: question)
@@ -41,23 +41,23 @@ class JournalEntriesController < ApplicationController
 # the above code was meant to display my questions and responses in the edit menu, even if I hadn't filled them out
 
     def update
-        @entry = JournalEntry.find(params[:id])
+        @entry = current_user.journal_entries.find(params[:id])
         if @entry.update(entry_params)
             redirect_to @entry, notice: "Sucsessul Entry"
         else
-        @entry = JournalEntry.includes(responses: { question: :question_options }).find(params[:id])
+        @entry = current_user.journal_entries.includes(responses: { question: :question_options }).find(params[:id])
         render :edit, status: :unprocessed_entity
         end
     end
 
     def destroy
-        @entry = JournalEntry.find(params[:id]);
+        @entry = current_user.journal_entries.find(params[:id]);
         @entry.destroy
         flash[:success] = "The to-do item was successfully destroyed."
         redirect_to journal_entries_url, notice: "Entry was removed"
 
         # respond_to do |format|
-        #     format.html {redirect_to journal_entry_url, notice: "Entry was removed"}
+        #     format.html {redirect_to journal_entries_url, notice: "Entry was removed"}
         #     # does this need to be journal_entry or journal_entries?
         # end
     end

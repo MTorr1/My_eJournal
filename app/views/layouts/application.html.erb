@@ -25,9 +25,9 @@
 
   <body>
     <%- if current_user %>
-      <%= button_to "All Entries", journal_entries_path %>
-      <%= button_to "New Entry", new_journal_entry_path %>
-      <%= button_to "logout", destroy_user_session_path, method: :delete %>
+      <%= link_to "All Entries", journal_entries_path %>
+      <%= link_to "New Entry", new_journal_entry_path %>
+      <%= button_to "Logout", destroy_user_session_path, method: :delete %>
     <% end %>
 
     <p class="notice"><%= notice %></p>

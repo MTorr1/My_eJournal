@@ -1,6 +1,6 @@
 class JournalEntriesController < ApplicationController
     def index
-        @entries = JournalEntry.all
+        @entries = current_user.journal_entries
     end
     def create
         # @entry = JournalEntry.create(entry_params)

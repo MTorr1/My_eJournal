@@ -2,33 +2,6 @@ class Response < ApplicationRecord
     belongs_to :journal_entry
     belongs_to :question
 
-#     attr_accessor :screen_time_in_minutes
-#     def initializer(hours, minutes)
-#         @hour = :hours
-#         @minute = :minutes
-#         @screen_time_in_minutes = (:hours * 60) + :minutes
-#     end
-
-#     validates :hours, numericality: {
-#         greater_than_or_equal_to: 0,
-#         less_than_or_equal_to: 24 
-#     }
-    
-#     validates :minutes, numericality: {
-#         greater_than_or_equal_to: 0,
-#         less_than_or_equal_to: 59 
-#     }
-# end
-# unsure if I need to write (:hours, :minutes) in my ()
-# unsure if my validations work
-
-
-# Second attempt at writing this code
-
-    # attr_accessor :hours, :minutes
-    # replacing the attr_accessor with the below
-    #  replacement worked. It allowed me to change the data type 
-
     def hours=(val)
         @hours = val.to_s.present? ? val.to_i : nill
     end
@@ -43,6 +16,18 @@ class Response < ApplicationRecord
 
     def minutes
         @minutes
+    end
+
+    def display_value
+        return text_value if text_value.present?
+        return date_value if date_value.present?
+        return screen_time_in_minutes if screen_time_in_minutes.present?
+
+        if numeric_value.present?
+            matched_option = question.question_options.find_by(value: numeric_value)
+            return matched_option&.label
+        end
+         "No anwser provided"
     end
 
     validates :hours, :minutes, presence: true, numericality: {only_integer: true}, 

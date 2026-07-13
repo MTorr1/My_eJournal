@@ -3,7 +3,7 @@ class Response < ApplicationRecord
     belongs_to :question
 
     def hours=(val)
-        @hours = val.to_s.present? ? val.to_i : nill
+        @hours = val.to_s.present? ? val.to_i : nil
     end
 
     def hours
@@ -22,10 +22,12 @@ class Response < ApplicationRecord
         return text_value if text_value.present?
         return date_value if date_value.present?
         return screen_time_in_minutes if screen_time_in_minutes.present?
+        
+        # return time if time.present?
 
         if numeric_value.present?
             matched_option = question.question_options.find_by(value: numeric_value)
-            return matched_option&.label
+            return matched_option&.label || numeric_value
         end
          "No anwser provided"
     end
@@ -49,5 +51,5 @@ class Response < ApplicationRecord
         self.numeric_value = (hours * 60) + minutes
     end
 end
-
+#may need to change self.numeric_value to self.screen_time_in_minutes
 

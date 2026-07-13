@@ -26,7 +26,7 @@ Question.create!([
     {content: "What happened to make you feel bad?", response_type: "string", position: 7},# Need to look at this and Q6 as Parent child logic in future
     {content: "When did you last see friends?", response_type: "date", position: 8},  
     {content: "Did I do self devlopment yesterday?", response_type: "boolean", position: 9},  
-    {content: "What is your current mood?", response_type: "integer", position: 11}, 
+    {content: "What is your current mood?", response_type: "string", position: 11}, 
     {content: "Are you sick?", response_type: "integer", position: 12},
 ])
 

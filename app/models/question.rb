@@ -1,5 +1,5 @@
 class Question < ApplicationRecord
-    has_many :responses
+    has_many :responses, -> {order(position: :asc)}
     has_many :question_options, dependent: :destroy
     has_many :journal_entries, through: :responses
 

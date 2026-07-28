@@ -1,3 +1,6 @@
+
+#speak to ben and finn about if enum would be useful here
+
 class Response < ApplicationRecord
     belongs_to :journal_entry
     belongs_to :question
@@ -23,11 +26,12 @@ class Response < ApplicationRecord
         return date_value if date_value.present?
         return screen_time_in_minutes if screen_time_in_minutes.present?
         
-        # return time if time.present?
+        return time if time.present?
 
         if numeric_value.present?
             matched_option = question.question_options.find_by(value: numeric_value)
-            return matched_option&.label || numeric_value
+            return matched_option&.label.presence || numeric_value
+# adding the . presence || numeric value causes all values to save on the show page. Questions on the show and edit page now appear in the wrong order
         end
          "No anwser provided"
     end
